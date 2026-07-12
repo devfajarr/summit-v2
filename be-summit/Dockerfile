@@ -34,7 +34,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
 
 
 # Create system user to run Composer and Artisan Commands
-RUN useradd -G www-data,root -u 1000 -d /home/dev dev
+RUN useradd -G www-data,root -u 1000 -d /home/dev -m -s /bin/bash dev
 RUN mkdir -p /home/dev/.composer && \
     chown -R dev:dev /home/dev
 
@@ -44,8 +44,6 @@ RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Set working directory
 WORKDIR /var/www
-
-USER dev
 
 EXPOSE 9000
 
