@@ -2,13 +2,13 @@
 set -e
 
 # Ensure directories exist
-mkdir -p /var/www/vendor /var/www/node_modules /var/www/storage /var/www/bootstrap/cache
+mkdir -p /var/www/vendor /var/www/node_modules /var/www/storage /var/www/bootstrap/cache /var/www/public/build
 
 # Fix permissions so the dev user (UID 1000) can write to them
 echo "Adjusting file permissions..."
-chown dev:dev /var/www
+chown dev:dev /var/www /var/www/public
 chown dev:dev /var/www/composer.lock /var/www/package-lock.json 2>/dev/null || true
-chown -R dev:dev /var/www/vendor /var/www/node_modules /var/www/storage /var/www/bootstrap/cache
+chown -R dev:dev /var/www/vendor /var/www/node_modules /var/www/storage /var/www/bootstrap/cache /var/www/public/build
 
 # Run composer install as dev user with login shell to preserve HOME env
 echo "Installing/updating Composer dependencies..."
