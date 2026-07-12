@@ -15,10 +15,18 @@ class ProcessHttpOnlyCookie
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->hasCookie('auth_token') && ! $request->headers->has('Authorization')) {
-            $request->headers->set('Authorization', 'Bearer '.$request->cookie('auth_token'));
-        }
+        // if ($request->hasCookie('auth_token') && ! $request->headers->has('Authorization')) {
+        //     $request->headers->set('Authorization', 'Bearer '.$request->cookie('auth_token'));
+        // }
 
+        // return $next($request);
+
+        if (!$request->headers->has('Authorization')) {
+            $token = $request->cookie('auth_token');
+            if ($token) {
+                $request->headers->set('Authorization', 'Bearer ' . $token);
+            }
+        }
         return $next($request);
     }
 }
