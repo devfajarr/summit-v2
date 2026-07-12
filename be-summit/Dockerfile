@@ -27,10 +27,20 @@ RUN docker-php-ext-install gd
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Install Node.js (Node 20 LTS) & npm
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+
 # Create system user to run Composer and Artisan Commands
 RUN useradd -G www-data,root -u 1000 -d /home/dev dev
 RUN mkdir -p /home/dev/.composer && \
     chown -R dev:dev /home/dev
+
+# Copy entrypoint script
+COPY docker/entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Set working directory
 WORKDIR /var/www
@@ -39,4 +49,6 @@ USER dev
 
 EXPOSE 9000
 
+ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["php-fpm"]
+
