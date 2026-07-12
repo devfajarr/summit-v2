@@ -1,0 +1,3933 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "BE Summit API Documentation",
+        "description": "API documentation for the BE Summit project",
+        "contact": {
+            "email": "support@example.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://be-summit.test",
+            "description": "API Server"
+        }
+    ],
+    "paths": {
+        "/api/admin/basecamp": {
+            "get": {
+                "tags": [
+                    "Basecamp (Admin)"
+                ],
+                "summary": "List all basecamps (Admin)",
+                "operationId": "6a17b7aeed243b484bae0712a5e472a4",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number for pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Basecamps fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Basecamps fetched successfully."
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/BasecampResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Basecamp (Admin)"
+                ],
+                "summary": "Create a new basecamp (Admin)",
+                "operationId": "15c7ebb30637b1e989d19f15fe4da797",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "mitra_id",
+                                    "jalur_id",
+                                    "nama_basecamp",
+                                    "latitude",
+                                    "longitude",
+                                    "jam_operasional"
+                                ],
+                                "properties": {
+                                    "mitra_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "jalur_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "nama_basecamp": {
+                                        "type": "string",
+                                        "example": "Basecamp Merbabu via Selo"
+                                    },
+                                    "latitude": {
+                                        "type": "string",
+                                        "example": "-7.441234"
+                                    },
+                                    "longitude": {
+                                        "type": "string",
+                                        "example": "110.421234"
+                                    },
+                                    "jam_operasional": {
+                                        "type": "string",
+                                        "example": "24 Jam"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Basecamp created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Basecamp created successfully."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/BasecampResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/basecamp/{id}": {
+            "get": {
+                "tags": [
+                    "Basecamp (Admin)"
+                ],
+                "summary": "Get details of a specific basecamp (Admin)",
+                "operationId": "c84ae8582157ac942445efb52bd2542f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Basecamp ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Basecamp details fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Basecamp details fetched successfully."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/BasecampResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Basecamp not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Basecamp (Admin)"
+                ],
+                "summary": "Update an existing basecamp (Admin)",
+                "operationId": "a24bf0653a6da43d876bb631c34db469",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Basecamp ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "mitra_id",
+                                    "jalur_id",
+                                    "nama_basecamp",
+                                    "latitude",
+                                    "longitude",
+                                    "jam_operasional"
+                                ],
+                                "properties": {
+                                    "mitra_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "jalur_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "nama_basecamp": {
+                                        "type": "string",
+                                        "example": "Basecamp Merbabu via Selo Updated"
+                                    },
+                                    "latitude": {
+                                        "type": "string",
+                                        "example": "-7.441235"
+                                    },
+                                    "longitude": {
+                                        "type": "string",
+                                        "example": "110.421235"
+                                    },
+                                    "jam_operasional": {
+                                        "type": "string",
+                                        "example": "07:00 - 22:00"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Basecamp updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Basecamp updated successfully."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/BasecampResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Basecamp not found"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Basecamp (Admin)"
+                ],
+                "summary": "Delete a basecamp (Admin)",
+                "operationId": "00549515241163f821794f77ee3daf93",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Basecamp ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Basecamp deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Basecamp deleted successfully."
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Basecamp not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/gunung": {
+            "post": {
+                "tags": [
+                    "Mountain (Admin)"
+                ],
+                "summary": "Create a new mountain profile (Admin)",
+                "operationId": "1330865348b204cfdc490b4744879482",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "nama_gunung",
+                                    "deskripsi",
+                                    "tinggi_mdpl",
+                                    "lokasi",
+                                    "foto",
+                                    "status"
+                                ],
+                                "properties": {
+                                    "nama_gunung": {
+                                        "type": "string",
+                                        "example": "Gunung Gede"
+                                    },
+                                    "deskripsi": {
+                                        "type": "string",
+                                        "example": "Gunung berapi aktif di Jawa Barat."
+                                    },
+                                    "tinggi_mdpl": {
+                                        "type": "integer",
+                                        "example": 2958
+                                    },
+                                    "lokasi": {
+                                        "type": "string",
+                                        "example": "Cianjur/Sukabumi/Bogor, Jawa Barat"
+                                    },
+                                    "foto": {
+                                        "description": "Mountain picture file (JPEG/PNG, max 2MB)",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "aktif"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Mountain created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Mountain created successfully."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/GunungResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/gunung/{id}": {
+            "post": {
+                "tags": [
+                    "Mountain (Admin)"
+                ],
+                "summary": "Update an existing mountain profile (Admin) [Uses POST with _method=PUT]",
+                "operationId": "3723c05351d0181cc78dbe8a675b62e9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Mountain ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "nama_gunung",
+                                    "deskripsi",
+                                    "tinggi_mdpl",
+                                    "lokasi",
+                                    "status"
+                                ],
+                                "properties": {
+                                    "_method": {
+                                        "type": "string",
+                                        "default": "PUT"
+                                    },
+                                    "nama_gunung": {
+                                        "type": "string",
+                                        "example": "Gunung Gede Baru"
+                                    },
+                                    "deskripsi": {
+                                        "type": "string",
+                                        "example": "Gunung berapi di Jawa Barat dengan pemandangan indah."
+                                    },
+                                    "tinggi_mdpl": {
+                                        "type": "integer",
+                                        "example": 2958
+                                    },
+                                    "lokasi": {
+                                        "type": "string",
+                                        "example": "Cianjur, Jawa Barat"
+                                    },
+                                    "foto": {
+                                        "description": "Optional new mountain picture file (JPEG/PNG, max 2MB)",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "aktif"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Mountain updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Mountain updated successfully."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/GunungResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Mountain not found"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Mountain (Admin)"
+                ],
+                "summary": "Delete a mountain profile (Admin)",
+                "operationId": "697e9581556635c9ae8dc2afac5835db",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Mountain ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Mountain deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Mountain deleted successfully."
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Mountain not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/jalur": {
+            "post": {
+                "tags": [
+                    "Trail (Admin)"
+                ],
+                "summary": "Create a new trail for a mountain (Admin)",
+                "operationId": "a25700a440c71e0b6a7f9dc3412464c5",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "gunung_id",
+                                    "nama_jalur",
+                                    "deskripsi",
+                                    "titik_awal_mdpl",
+                                    "titik_akhir_mdpl",
+                                    "waktu_tempuh",
+                                    "status",
+                                    "panjang_jalur",
+                                    "tingkat_kesulitan"
+                                ],
+                                "properties": {
+                                    "gunung_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "nama_jalur": {
+                                        "type": "string",
+                                        "example": "Jalur Cibodas"
+                                    },
+                                    "deskripsi": {
+                                        "type": "string",
+                                        "example": "Jalur pendakian yang berbatu dan terdapat air panas."
+                                    },
+                                    "titik_awal_mdpl": {
+                                        "type": "string",
+                                        "example": "1300 MDPL"
+                                    },
+                                    "titik_akhir_mdpl": {
+                                        "type": "string",
+                                        "example": "2958 MDPL"
+                                    },
+                                    "waktu_tempuh": {
+                                        "type": "string",
+                                        "example": "7 Jam"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "open",
+                                        "enum": [
+                                            "open",
+                                            "close"
+                                        ]
+                                    },
+                                    "panjang_jalur": {
+                                        "type": "string",
+                                        "example": "9.7 Km"
+                                    },
+                                    "tingkat_kesulitan": {
+                                        "type": "string",
+                                        "example": "sedang",
+                                        "enum": [
+                                            "mudah",
+                                            "sedang",
+                                            "sulit",
+                                            "ekstrem"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Trail created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Trail created successfully."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/JalurPendakianResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/jalur/{id}": {
+            "put": {
+                "tags": [
+                    "Trail (Admin)"
+                ],
+                "summary": "Update an existing trail (Admin)",
+                "operationId": "c5ae017d88a1a072c3e9a9c78e609bf6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Trail ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "gunung_id",
+                                    "nama_jalur",
+                                    "deskripsi",
+                                    "titik_awal_mdpl",
+                                    "titik_akhir_mdpl",
+                                    "waktu_tempuh",
+                                    "status",
+                                    "panjang_jalur",
+                                    "tingkat_kesulitan"
+                                ],
+                                "properties": {
+                                    "gunung_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "nama_jalur": {
+                                        "type": "string",
+                                        "example": "Jalur Cibodas Baru"
+                                    },
+                                    "deskripsi": {
+                                        "type": "string",
+                                        "example": "Jalur dengan fasilitas lengkap."
+                                    },
+                                    "titik_awal_mdpl": {
+                                        "type": "string",
+                                        "example": "1300 MDPL"
+                                    },
+                                    "titik_akhir_mdpl": {
+                                        "type": "string",
+                                        "example": "2958 MDPL"
+                                    },
+                                    "waktu_tempuh": {
+                                        "type": "string",
+                                        "example": "6 Jam"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "open",
+                                        "enum": [
+                                            "open",
+                                            "close"
+                                        ]
+                                    },
+                                    "panjang_jalur": {
+                                        "type": "string",
+                                        "example": "9.7 Km"
+                                    },
+                                    "tingkat_kesulitan": {
+                                        "type": "string",
+                                        "example": "sedang",
+                                        "enum": [
+                                            "mudah",
+                                            "sedang",
+                                            "sulit",
+                                            "ekstrem"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Trail updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Trail updated successfully."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/JalurPendakianResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Trail not found"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Trail (Admin)"
+                ],
+                "summary": "Delete a trail (Admin)",
+                "operationId": "87431ed0199c583696e85eb0b72ea19c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Trail ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Trail deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Trail deleted successfully."
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Trail not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/kyc": {
+            "get": {
+                "tags": [
+                    "KYC (Admin)"
+                ],
+                "summary": "List all climber KYC profiles (Admin)",
+                "operationId": "6d7ae9ea3562503c9c3ea2451ce8dfce",
+                "parameters": [
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Filter by verification status",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "pending",
+                                "disetujui",
+                                "ditolak"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number for pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "KYC profiles fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "KYC profiles fetched successfully."
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/PendakiResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden - only for admin"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/kyc/{id}": {
+            "get": {
+                "tags": [
+                    "KYC (Admin)"
+                ],
+                "summary": "Get details of a specific KYC profile (Admin)",
+                "operationId": "8e55726d3bf024765be9334edfdef054",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "KYC / Pendaki Profile ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "KYC profile fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "KYC profile details fetched successfully."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PendakiResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden - only for admin"
+                    },
+                    "404": {
+                        "description": "KYC profile not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/kyc/{id}/download-document": {
+            "get": {
+                "tags": [
+                    "KYC (Admin)"
+                ],
+                "summary": "Download climber uploaded identity document file securely (Admin)",
+                "operationId": "0e57dc78838e2fda27da3f81a04e33f3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "KYC / Pendaki Profile ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Secure file download response",
+                        "content": {
+                            "application/octet-stream": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden - only for admin"
+                    },
+                    "404": {
+                        "description": "KYC profile or document file not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/kyc/{id}/verify": {
+            "post": {
+                "tags": [
+                    "KYC (Admin)"
+                ],
+                "summary": "Verify (approve or reject) a climber KYC profile (Admin)",
+                "operationId": "91660f81dbbb869fd0a037aa8c8a51e3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "KYC / Pendaki Profile ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "status_verifikasi"
+                                ],
+                                "properties": {
+                                    "status_verifikasi": {
+                                        "type": "string",
+                                        "example": "disetujui",
+                                        "enum": [
+                                            "disetujui",
+                                            "ditolak"
+                                        ]
+                                    },
+                                    "alasan_penolakan": {
+                                        "type": "string",
+                                        "example": "Foto KTP buram dan tidak terbaca."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "KYC profile verified successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "KYC profile verified successfully."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PendakiResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden - only for admin"
+                    },
+                    "404": {
+                        "description": "KYC profile not found"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/mitra": {
+            "get": {
+                "tags": [
+                    "Partner (Admin)"
+                ],
+                "summary": "List all partner (mitra) profiles (Admin)",
+                "operationId": "2f13582e2c120e4a97daa0e0932e44e0",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number for pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Partners fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Partners fetched successfully."
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/MitraResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Partner (Admin)"
+                ],
+                "summary": "Create a new partner (mitra) profile and user account (Admin)",
+                "operationId": "ba64625dd4a83d3dbb82ebb3510ffe0b",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password",
+                                    "nama_pemilik",
+                                    "telepon",
+                                    "alamat",
+                                    "status",
+                                    "nik",
+                                    "rekening_bank",
+                                    "nama_rekening",
+                                    "bank"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "mitra1@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password123"
+                                    },
+                                    "nama_pemilik": {
+                                        "type": "string",
+                                        "example": "Budi Santoso"
+                                    },
+                                    "telepon": {
+                                        "type": "string",
+                                        "example": "081234567890"
+                                    },
+                                    "alamat": {
+                                        "type": "string",
+                                        "example": "Jl. Raya Summit No. 10"
+                                    },
+                                    "deskripsi": {
+                                        "type": "string",
+                                        "example": "Pemilik Basecamp Merbabu Indah"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "aktif",
+                                        "enum": [
+                                            "aktif",
+                                            "suspend"
+                                        ]
+                                    },
+                                    "npwp": {
+                                        "type": "string",
+                                        "example": "12.345.678.9-012.000"
+                                    },
+                                    "nik": {
+                                        "type": "string",
+                                        "example": "3201234567890001"
+                                    },
+                                    "rekening_bank": {
+                                        "type": "string",
+                                        "example": "1234567890"
+                                    },
+                                    "nama_rekening": {
+                                        "type": "string",
+                                        "example": "Budi Santoso"
+                                    },
+                                    "bank": {
+                                        "type": "string",
+                                        "example": "Bank BCA"
+                                    },
+                                    "ewallet": {
+                                        "type": "string",
+                                        "example": "081234567890"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Partner created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Partner profile and user account created successfully."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/MitraResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/mitra/{id}": {
+            "get": {
+                "tags": [
+                    "Partner (Admin)"
+                ],
+                "summary": "Get details of a specific partner (mitra) profile (Admin)",
+                "operationId": "a96ef8d5eea01784148bcd2f7677c60c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Partner Profile ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Partner details fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Partner details fetched successfully."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/MitraResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Partner not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Partner (Admin)"
+                ],
+                "summary": "Update an existing partner (mitra) profile (Admin)",
+                "operationId": "f8851a98d47aab5e35aa6b3a5f2ff8eb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Partner Profile ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "nama_pemilik",
+                                    "telepon",
+                                    "alamat",
+                                    "status",
+                                    "nik",
+                                    "rekening_bank",
+                                    "nama_rekening",
+                                    "bank"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "mitra1.updated@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "newpassword123"
+                                    },
+                                    "nama_pemilik": {
+                                        "type": "string",
+                                        "example": "Budi Santoso Updated"
+                                    },
+                                    "telepon": {
+                                        "type": "string",
+                                        "example": "081234567891"
+                                    },
+                                    "alamat": {
+                                        "type": "string",
+                                        "example": "Jl. Raya Summit No. 12"
+                                    },
+                                    "deskripsi": {
+                                        "type": "string",
+                                        "example": "Pemilik Basecamp Merbabu Indah Baru"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "aktif",
+                                        "enum": [
+                                            "aktif",
+                                            "suspend"
+                                        ]
+                                    },
+                                    "npwp": {
+                                        "type": "string",
+                                        "example": "12.345.678.9-012.000"
+                                    },
+                                    "nik": {
+                                        "type": "string",
+                                        "example": "3201234567890001"
+                                    },
+                                    "rekening_bank": {
+                                        "type": "string",
+                                        "example": "1234567890"
+                                    },
+                                    "nama_rekening": {
+                                        "type": "string",
+                                        "example": "Budi Santoso Updated"
+                                    },
+                                    "bank": {
+                                        "type": "string",
+                                        "example": "Bank Mandiri"
+                                    },
+                                    "ewallet": {
+                                        "type": "string",
+                                        "example": "081234567891"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Partner updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Partner profile updated successfully."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/MitraResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Partner not found"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Partner (Admin)"
+                ],
+                "summary": "Delete a partner profile and user account (Admin)",
+                "operationId": "f152ee68da18cd1107397976a71f1eea",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Partner Profile ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Partner deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Partner profile and user account deleted successfully."
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Partner not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/products": {
+            "get": {
+                "tags": [
+                    "Product (Admin)"
+                ],
+                "summary": "List all products across all basecamps (Admin)",
+                "operationId": "b34ae277f0fefc0a74d9869d25c1fa18",
+                "parameters": [
+                    {
+                        "name": "basecamp_id",
+                        "in": "query",
+                        "description": "Filter products by basecamp ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number for pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Products fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "All products fetched successfully."
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ProdukResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/products/{id}": {
+            "get": {
+                "tags": [
+                    "Product (Admin)"
+                ],
+                "summary": "Get details of any specific product (Admin)",
+                "operationId": "062dc33bdb34eef6fb8eed7af62254c6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product details fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product details fetched successfully."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ProdukResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Product not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Register a new user (Pendaki)",
+                "operationId": "8a56853624e025573120a09a4c75d468",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Jhon Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "jhon@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User registered successfully, verification OTP sent",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Registration successful. Please check your email for the OTP verification code."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/UserResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Login user",
+                "operationId": "a3b306d14572d1f4bd6c064b3233e7b8",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "jhon@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Login successful"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/UserResource"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "2|xyz..."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid credentials"
+                    },
+                    "403": {
+                        "description": "Email address is not verified"
+                    }
+                }
+            }
+        },
+        "/api/verify-otp": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Verify email registration using OTP code",
+                "operationId": "7809ddcd47cab2525ccd43d1c2031bfd",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "otp"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "jhon@example.com"
+                                    },
+                                    "otp": {
+                                        "type": "string",
+                                        "example": "123456"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Email verified successfully, access token returned",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Email verified successfully."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/UserResource"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "3|abc..."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid or expired OTP code"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/resend-otp": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Resend OTP verification code to user email",
+                "operationId": "d345e764f1190fc7cfdc54bb87ec0a10",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "jhon@example.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OTP code resent successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "A new OTP verification code has been sent to your email."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Email is already verified"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/mitra/products": {
+            "get": {
+                "tags": [
+                    "Product (Mitra)"
+                ],
+                "summary": "List all products owned by this partner (Mitra)",
+                "operationId": "3354d47c5f7368eb830b2d26d4a076b7",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number for pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Products fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Products fetched successfully."
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ProdukResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Product (Mitra)"
+                ],
+                "summary": "Create a new product with opentrip/ticket details (Mitra)",
+                "operationId": "f91f72f5b2a391b9b8e374d63a98b9eb",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "basecamp_id",
+                                    "nama_produk",
+                                    "kategori",
+                                    "harga"
+                                ],
+                                "properties": {
+                                    "basecamp_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "nama_produk": {
+                                        "type": "string",
+                                        "example": "Sewa Tenda Dome"
+                                    },
+                                    "kategori": {
+                                        "type": "string",
+                                        "example": "rental",
+                                        "enum": [
+                                            "ticket",
+                                            "rental",
+                                            "opentrip",
+                                            "guide",
+                                            "porter",
+                                            "transport",
+                                            "parkir",
+                                            "merchandise",
+                                            "kuliner"
+                                        ]
+                                    },
+                                    "deskripsi": {
+                                        "type": "string",
+                                        "example": "Tenda double layer kapasitas 4 orang"
+                                    },
+                                    "harga": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 35000
+                                    },
+                                    "stok": {
+                                        "type": "integer",
+                                        "example": 10
+                                    },
+                                    "satuan": {
+                                        "type": "string",
+                                        "example": "hari"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "tanggal_berangkat": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2026-08-01"
+                                    },
+                                    "tanggal_pulang": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2026-08-03"
+                                    },
+                                    "meeting_point": {
+                                        "type": "string",
+                                        "example": "Basecamp Selo"
+                                    },
+                                    "minimal_peserta": {
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "maksimal_peserta": {
+                                        "type": "integer",
+                                        "example": 15
+                                    },
+                                    "jalur_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "jam_buka": {
+                                        "type": "string",
+                                        "example": "07:00"
+                                    },
+                                    "jam_tutup": {
+                                        "type": "string",
+                                        "example": "17:00"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Product created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product created successfully."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ProdukResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/mitra/products/{id}": {
+            "get": {
+                "tags": [
+                    "Product (Mitra)"
+                ],
+                "summary": "Get details of a specific product (Mitra)",
+                "operationId": "57e0a35b71787d49cac4261e74856723",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product details fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product details fetched successfully."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ProdukResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Product not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Product (Mitra)"
+                ],
+                "summary": "Update an existing product (Mitra)",
+                "operationId": "8eb3825b9e62d1dcf65419c167c6bae3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "basecamp_id",
+                                    "nama_produk",
+                                    "kategori",
+                                    "harga"
+                                ],
+                                "properties": {
+                                    "basecamp_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "nama_produk": {
+                                        "type": "string",
+                                        "example": "Sewa Tenda Dome Baru"
+                                    },
+                                    "kategori": {
+                                        "type": "string",
+                                        "example": "rental",
+                                        "enum": [
+                                            "ticket",
+                                            "rental",
+                                            "opentrip",
+                                            "guide",
+                                            "porter",
+                                            "transport",
+                                            "parkir",
+                                            "merchandise",
+                                            "kuliner"
+                                        ]
+                                    },
+                                    "deskripsi": {
+                                        "type": "string",
+                                        "example": "Tenda double layer kapasitas 4 orang teruji air hujan"
+                                    },
+                                    "harga": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 40000
+                                    },
+                                    "stok": {
+                                        "type": "integer",
+                                        "example": 8
+                                    },
+                                    "satuan": {
+                                        "type": "string",
+                                        "example": "hari"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Product updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product updated successfully."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ProdukResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Product not found"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Product (Mitra)"
+                ],
+                "summary": "Delete a product (Mitra)",
+                "operationId": "afd40742afdd4985b83cf8f08e12c5fb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product deleted successfully."
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Product not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/gunung": {
+            "get": {
+                "tags": [
+                    "Mountain (Climber)"
+                ],
+                "summary": "List all mountains with their trails (Climber)",
+                "operationId": "38c485a92ae9925858bc215ec0a145c4",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number for pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Mountains fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Mountains fetched successfully."
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/GunungResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/gunung/{id}": {
+            "get": {
+                "tags": [
+                    "Mountain (Climber)"
+                ],
+                "summary": "Get details of a specific mountain and its trails (Climber)",
+                "operationId": "c94a58bb8ea3f3195e5d4b9c4a57437a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Mountain ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Mountain details fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Mountain details fetched successfully."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/GunungResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "404": {
+                        "description": "Mountain not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/kyc/submit": {
+            "post": {
+                "tags": [
+                    "KYC (Climber)"
+                ],
+                "summary": "Submit KYC climber profile identity details and upload identity photo",
+                "operationId": "f16aaa38a03bbefe78221b88492c598a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "nama_lengkap",
+                                    "jenis_identitas",
+                                    "nomor_identitas",
+                                    "foto_identitas",
+                                    "tanggal_lahir",
+                                    "jenis_kelamin",
+                                    "alamat",
+                                    "telepon",
+                                    "nama_kontak_darurat",
+                                    "telepon_darurat",
+                                    "hubungan_darurat"
+                                ],
+                                "properties": {
+                                    "nama_lengkap": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "jenis_identitas": {
+                                        "type": "string",
+                                        "example": "ktp",
+                                        "enum": [
+                                            "ktp",
+                                            "paspor",
+                                            "sim",
+                                            "lainnya"
+                                        ]
+                                    },
+                                    "nomor_identitas": {
+                                        "type": "string",
+                                        "example": "1234567890123456"
+                                    },
+                                    "foto_identitas": {
+                                        "description": "Upload file KTP/Passport (JPEG/PNG, max 2MB)",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "tanggal_lahir": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2000-01-01"
+                                    },
+                                    "jenis_kelamin": {
+                                        "type": "string",
+                                        "example": "l",
+                                        "enum": [
+                                            "l",
+                                            "p"
+                                        ]
+                                    },
+                                    "alamat": {
+                                        "type": "string",
+                                        "example": "Jl. Merdeka No. 45"
+                                    },
+                                    "telepon": {
+                                        "type": "string",
+                                        "example": "081234567890"
+                                    },
+                                    "nama_kontak_darurat": {
+                                        "type": "string",
+                                        "example": "Jane Doe"
+                                    },
+                                    "telepon_darurat": {
+                                        "type": "string",
+                                        "example": "081298765432"
+                                    },
+                                    "hubungan_darurat": {
+                                        "type": "string",
+                                        "example": "Istri"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "KYC identity submitted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "KYC identity submitted successfully."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PendakiResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden - only for role pendaki"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/kyc/status": {
+            "get": {
+                "tags": [
+                    "KYC (Climber)"
+                ],
+                "summary": "Get climber current KYC status and profile",
+                "operationId": "45075c4b1ba61c4aef4d7686e7b9f275",
+                "responses": {
+                    "200": {
+                        "description": "KYC status retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "KYC status retrieved successfully."
+                                        },
+                                        "data": {
+                                            "oneOf": [
+                                                {
+                                                    "$ref": "#/components/schemas/PendakiResource"
+                                                }
+                                            ],
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/pesanan": {
+            "post": {
+                "tags": [
+                    "Pesanan (Climber)"
+                ],
+                "summary": "Create a new climber booking order (Pesanan)",
+                "operationId": "18dfbaa523a3c0fedcacb20292f8d938",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "basecamp_id",
+                                    "jalur_id",
+                                    "tanggal_booking",
+                                    "anggotas",
+                                    "items"
+                                ],
+                                "properties": {
+                                    "basecamp_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "jalur_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "tanggal_booking": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2026-07-10"
+                                    },
+                                    "anggotas": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "nama_anggota": {
+                                                    "type": "string",
+                                                    "example": "Jane Doe"
+                                                },
+                                                "nik_identitas": {
+                                                    "type": "string",
+                                                    "example": "1234567890123456"
+                                                },
+                                                "telepon": {
+                                                    "type": "string",
+                                                    "example": "081234567890"
+                                                },
+                                                "telepon_darurat": {
+                                                    "type": "string",
+                                                    "example": "081298765432"
+                                                },
+                                                "hubungan_darurat": {
+                                                    "type": "string",
+                                                    "example": "Istri"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "items": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "produk_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "qty": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Order created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Order created successfully."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PesananResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "422": {
+                        "description": "Validation error / Out of stock or quota"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/products": {
+            "get": {
+                "tags": [
+                    "Product (Climber)"
+                ],
+                "summary": "List all active products for climbers (Pendaki)",
+                "operationId": "6e6536c59a57165aedb5f753eb17ade8",
+                "parameters": [
+                    {
+                        "name": "basecamp_id",
+                        "in": "query",
+                        "description": "Filter by basecamp ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "kategori",
+                        "in": "query",
+                        "description": "Filter by product category",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number for pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Products fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Active products fetched successfully."
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ProdukResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/products/{id}": {
+            "get": {
+                "tags": [
+                    "Product (Climber)"
+                ],
+                "summary": "Get details of an active product for climbers (Pendaki)",
+                "operationId": "668470194acd9bda8e6de3b881306bcb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product details fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product details fetched successfully."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ProdukResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "404": {
+                        "description": "Product not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "BasecampResource": {
+                "title": "Basecamp Resource",
+                "description": "Basecamp profile resource representation",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "mitra_id": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "jalur_id": {
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "nama_basecamp": {
+                        "type": "string",
+                        "example": "Basecamp Merbabu Selo"
+                    },
+                    "latitude": {
+                        "type": "string",
+                        "example": "-7.441234"
+                    },
+                    "longitude": {
+                        "type": "string",
+                        "example": "110.421234"
+                    },
+                    "jam_operasional": {
+                        "type": "string",
+                        "example": "24 Jam"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-07-05T12:00:00+07:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-07-05T12:00:00+07:00"
+                    },
+                    "mitra": {
+                        "$ref": "#/components/schemas/MitraResource"
+                    },
+                    "jalur": {
+                        "$ref": "#/components/schemas/JalurPendakianResource"
+                    },
+                    "produks": {
+                        "description": "List of products sold by this basecamp",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProdukResource"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "DetailPesananResource": {
+                "title": "Detail Pesanan Resource",
+                "description": "Order item detail resource representation",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "pesanan_id": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "produk_id": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "qty": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "harga": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 20000
+                    },
+                    "subtotal": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 40000
+                    },
+                    "status_operasional": {
+                        "type": "string",
+                        "example": "pending"
+                    },
+                    "kode_tiket": {
+                        "type": "string",
+                        "example": "TKT-CBD-001",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-07-05T12:00:00+07:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-07-05T12:00:00+07:00"
+                    },
+                    "produk": {
+                        "$ref": "#/components/schemas/ProdukResource"
+                    }
+                },
+                "type": "object"
+            },
+            "GunungResource": {
+                "title": "Gunung Resource",
+                "description": "Mountain profile resource representation",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nama_gunung": {
+                        "type": "string",
+                        "example": "Gunung Gede"
+                    },
+                    "deskripsi": {
+                        "type": "string",
+                        "example": "Gunung api aktif di Jawa Barat yang populer."
+                    },
+                    "tinggi_mdpl": {
+                        "type": "integer",
+                        "example": 2958
+                    },
+                    "lokasi": {
+                        "type": "string",
+                        "example": "Cianjur, Jawa Barat"
+                    },
+                    "foto": {
+                        "type": "string",
+                        "example": "http://be-summit.test/storage/gunungs/gede.jpg"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "aktif"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-07-03T12:00:00+07:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-07-03T12:00:00+07:00"
+                    },
+                    "jalurs": {
+                        "description": "List of trails associated with this mountain",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/JalurPendakianResource"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "JalurPendakianResource": {
+                "title": "Jalur Pendakian Resource",
+                "description": "Trail profile resource representation",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "gunung_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nama_jalur": {
+                        "type": "string",
+                        "example": "Jalur Cibodas"
+                    },
+                    "deskripsi": {
+                        "type": "string",
+                        "example": "Jalur legendaris berbatu dengan pemandangan air panas."
+                    },
+                    "titik_awal_mdpl": {
+                        "type": "string",
+                        "example": "1300 MDPL"
+                    },
+                    "titik_akhir_mdpl": {
+                        "type": "string",
+                        "example": "2958 MDPL"
+                    },
+                    "waktu_tempuh": {
+                        "type": "string",
+                        "example": "7 Jam"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "open",
+                        "enum": [
+                            "open",
+                            "close"
+                        ]
+                    },
+                    "panjang_jalur": {
+                        "type": "string",
+                        "example": "9.7 Km"
+                    },
+                    "tingkat_kesulitan": {
+                        "type": "string",
+                        "example": "sedang",
+                        "enum": [
+                            "mudah",
+                            "sedang",
+                            "sulit",
+                            "ekstrem"
+                        ]
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-07-03T12:00:00+07:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-07-03T12:00:00+07:00"
+                    }
+                },
+                "type": "object"
+            },
+            "KuotaHarianTiketResource": {
+                "title": "Kuota Harian Tiket Resource",
+                "description": "Daily ticket quota representation",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "produk_tiket_id": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "tanggal": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2026-07-10"
+                    },
+                    "kuota_total": {
+                        "type": "integer",
+                        "example": 100
+                    },
+                    "kuota_tersisa": {
+                        "type": "integer",
+                        "example": 100
+                    }
+                },
+                "type": "object"
+            },
+            "MitraResource": {
+                "title": "Mitra Resource",
+                "description": "Partner profile resource representation",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "nama_pemilik": {
+                        "type": "string",
+                        "example": "Budi Santoso"
+                    },
+                    "telepon": {
+                        "type": "string",
+                        "example": "081234567890"
+                    },
+                    "alamat": {
+                        "type": "string",
+                        "example": "Jl. Raya Summit No. 10"
+                    },
+                    "deskripsi": {
+                        "type": "string",
+                        "example": "Pemilik Basecamp Merbabu Indah",
+                        "nullable": true
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "aktif"
+                    },
+                    "npwp": {
+                        "type": "string",
+                        "example": "12.345.678.9-012.000",
+                        "nullable": true
+                    },
+                    "nik": {
+                        "type": "string",
+                        "example": "3201234567890001"
+                    },
+                    "rekening_bank": {
+                        "type": "string",
+                        "example": "1234567890"
+                    },
+                    "nama_rekening": {
+                        "type": "string",
+                        "example": "Budi Santoso"
+                    },
+                    "bank": {
+                        "type": "string",
+                        "example": "Bank BCA"
+                    },
+                    "ewallet": {
+                        "type": "string",
+                        "example": "081234567890",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-07-05T12:00:00+07:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-07-05T12:00:00+07:00"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/UserResource"
+                    }
+                },
+                "type": "object"
+            },
+            "PembayaranResource": {
+                "title": "Pembayaran Resource",
+                "description": "Payment resource representation",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "pesanan_id": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "metode": {
+                        "type": "string",
+                        "example": "qris",
+                        "nullable": true
+                    },
+                    "provider": {
+                        "type": "string",
+                        "example": "QRIS",
+                        "nullable": true
+                    },
+                    "xendit_invoice_id": {
+                        "type": "string",
+                        "example": "xendit-inv-12345",
+                        "nullable": true
+                    },
+                    "checkout_url": {
+                        "type": "string",
+                        "example": "https://checkout.xendit.co/v2/invoice/abc",
+                        "nullable": true
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "pending"
+                    },
+                    "biaya_gateway": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 750
+                    },
+                    "paid_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-07-05T12:00:00+07:00",
+                        "nullable": true
+                    },
+                    "expired_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-07-05T12:10:00+07:00",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-07-05T12:00:00+07:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-07-05T12:00:00+07:00"
+                    }
+                },
+                "type": "object"
+            },
+            "PendakiResource": {
+                "title": "Pendaki Resource",
+                "description": "Climber profile KYC resource representation",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nama_lengkap": {
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "jenis_identitas": {
+                        "type": "string",
+                        "example": "ktp"
+                    },
+                    "nomor_identitas": {
+                        "type": "string",
+                        "example": "1234567890123456"
+                    },
+                    "foto_identitas": {
+                        "type": "string",
+                        "example": "kyc_documents/xyz.jpg"
+                    },
+                    "tanggal_lahir": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2000-01-01"
+                    },
+                    "jenis_kelamin": {
+                        "type": "string",
+                        "example": "l"
+                    },
+                    "alamat": {
+                        "type": "string",
+                        "example": "Jl. Merdeka No. 45"
+                    },
+                    "telepon": {
+                        "type": "string",
+                        "example": "081234567890"
+                    },
+                    "nama_kontak_darurat": {
+                        "type": "string",
+                        "example": "Jane Doe"
+                    },
+                    "telepon_darurat": {
+                        "type": "string",
+                        "example": "081298765432"
+                    },
+                    "hubungan_darurat": {
+                        "type": "string",
+                        "example": "Istri"
+                    },
+                    "status_verifikasi": {
+                        "type": "string",
+                        "example": "pending"
+                    },
+                    "alasan_penolakan": {
+                        "type": "string",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "verified_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "verified_by": {
+                        "type": "integer",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-07-03T12:00:00+07:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-07-03T12:00:00+07:00"
+                    }
+                },
+                "type": "object"
+            },
+            "PesananAnggotaResource": {
+                "title": "Pesanan Anggota Resource",
+                "description": "Order member resource representation",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "pesanan_id": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "nama_anggota": {
+                        "type": "string",
+                        "example": "Jane Doe"
+                    },
+                    "nik_identitas": {
+                        "type": "string",
+                        "example": "1234567890123456"
+                    },
+                    "telepon": {
+                        "type": "string",
+                        "example": "081234567890",
+                        "nullable": true
+                    },
+                    "telepon_darurat": {
+                        "type": "string",
+                        "example": "081298765432",
+                        "nullable": true
+                    },
+                    "hubungan_darurat": {
+                        "type": "string",
+                        "example": "Istri",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-07-05T12:00:00+07:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-07-05T12:00:00+07:00"
+                    }
+                },
+                "type": "object"
+            },
+            "PesananResource": {
+                "title": "Pesanan Resource",
+                "description": "Booking order resource representation",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "invoice": {
+                        "type": "string",
+                        "example": "INV/20260706/ABC12"
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "basecamp_id": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "jalur_id": {
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "pending"
+                    },
+                    "subtotal": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 90000
+                    },
+                    "tanggal_booking": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2026-07-10"
+                    },
+                    "diskon": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 0
+                    },
+                    "biaya_layanan_user": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 5000
+                    },
+                    "komisi_admin": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 9000
+                    },
+                    "pendapatan_mitra": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 81000
+                    },
+                    "total_bayar": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 95000
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-07-06T12:00:00+07:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-07-06T12:00:00+07:00"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/UserResource"
+                    },
+                    "basecamp": {
+                        "$ref": "#/components/schemas/BasecampResource"
+                    },
+                    "jalur": {
+                        "$ref": "#/components/schemas/JalurPendakianResource"
+                    },
+                    "anggotas": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PesananAnggotaResource"
+                        }
+                    },
+                    "details": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DetailPesananResource"
+                        }
+                    },
+                    "pembayaran": {
+                        "$ref": "#/components/schemas/PembayaranResource"
+                    }
+                },
+                "type": "object"
+            },
+            "ProdukOpentripResource": {
+                "title": "Produk Opentrip Resource",
+                "description": "Open trip product detail representation",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "produk_id": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "tanggal_berangkat": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2026-08-01"
+                    },
+                    "tanggal_pulang": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2026-08-03"
+                    },
+                    "meeting_point": {
+                        "type": "string",
+                        "example": "Basecamp Selo"
+                    },
+                    "minimal_peserta": {
+                        "type": "integer",
+                        "example": 5
+                    },
+                    "maksimal_peserta": {
+                        "type": "integer",
+                        "example": 15
+                    },
+                    "sisa_kursi": {
+                        "type": "integer",
+                        "example": 15
+                    }
+                },
+                "type": "object"
+            },
+            "ProdukResource": {
+                "title": "Produk Resource",
+                "description": "General product resource representation",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "basecamp_id": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "nama_produk": {
+                        "type": "string",
+                        "example": "Sewa Tenda Dome"
+                    },
+                    "kategori": {
+                        "type": "string",
+                        "example": "rental"
+                    },
+                    "deskripsi": {
+                        "type": "string",
+                        "example": "Tenda dome double layer kapasitas 4 orang.",
+                        "nullable": true
+                    },
+                    "harga": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 35000
+                    },
+                    "stok": {
+                        "type": "integer",
+                        "example": 15,
+                        "nullable": true
+                    },
+                    "satuan": {
+                        "type": "string",
+                        "example": "hari",
+                        "nullable": true
+                    },
+                    "is_active": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "gambar": {
+                        "type": "string",
+                        "example": "http://be-summit.test/storage/products/tenda.jpg",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-07-05T12:00:00+07:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-07-05T12:00:00+07:00"
+                    },
+                    "basecamp": {
+                        "$ref": "#/components/schemas/BasecampResource"
+                    },
+                    "opentrip": {
+                        "$ref": "#/components/schemas/ProdukOpentripResource"
+                    },
+                    "tiket": {
+                        "$ref": "#/components/schemas/ProdukTiketResource"
+                    }
+                },
+                "type": "object"
+            },
+            "ProdukTiketResource": {
+                "title": "Produk Tiket Resource",
+                "description": "Ticket product detail representation",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "produk_id": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "jalur_id": {
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "jam_buka": {
+                        "type": "string",
+                        "example": "07:00:00"
+                    },
+                    "jam_tutup": {
+                        "type": "string",
+                        "example": "17:00:00"
+                    },
+                    "jalur": {
+                        "$ref": "#/components/schemas/JalurPendakianResource"
+                    },
+                    "kuotas": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/KuotaHarianTiketResource"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "UserResource": {
+                "title": "User Resource",
+                "description": "User resource representation",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Jhon Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "jhon@example.com"
+                    },
+                    "role": {
+                        "type": "string",
+                        "example": "pendaki"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-07-02T15:34:17+07:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-07-02T15:34:17+07:00"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Basecamp (Admin)",
+            "description": "Basecamp (Admin)"
+        },
+        {
+            "name": "Mountain (Admin)",
+            "description": "Mountain (Admin)"
+        },
+        {
+            "name": "Trail (Admin)",
+            "description": "Trail (Admin)"
+        },
+        {
+            "name": "KYC (Admin)",
+            "description": "KYC (Admin)"
+        },
+        {
+            "name": "Partner (Admin)",
+            "description": "Partner (Admin)"
+        },
+        {
+            "name": "Product (Admin)",
+            "description": "Product (Admin)"
+        },
+        {
+            "name": "Authentication",
+            "description": "Authentication"
+        },
+        {
+            "name": "Product (Mitra)",
+            "description": "Product (Mitra)"
+        },
+        {
+            "name": "Mountain (Climber)",
+            "description": "Mountain (Climber)"
+        },
+        {
+            "name": "KYC (Climber)",
+            "description": "KYC (Climber)"
+        },
+        {
+            "name": "Pesanan (Climber)",
+            "description": "Pesanan (Climber)"
+        },
+        {
+            "name": "Product (Climber)",
+            "description": "Product (Climber)"
+        }
+    ]
+}
