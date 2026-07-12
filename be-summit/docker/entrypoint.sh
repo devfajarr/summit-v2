@@ -22,6 +22,6 @@ HOME=/home/dev runuser -u dev -- npm install
 echo "Building assets (npm run build)..."
 HOME=/home/dev runuser -u dev -- npm run build
 
-# Run the container command as dev user
+# Run the container command
 echo "Starting application..."
-exec runuser -u dev -- "$@"
+exec "$@"

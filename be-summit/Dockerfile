@@ -38,6 +38,11 @@ RUN useradd -G www-data,root -u 1000 -d /home/dev -m -s /bin/bash dev
 RUN mkdir -p /home/dev/.composer && \
     chown -R dev:dev /home/dev
 
+# Configure PHP-FPM workers to run as dev user
+RUN sed -i 's/user = www-data/user = dev/g' /usr/local/etc/php-fpm.d/www.conf
+RUN sed -i 's/group = www-data/group = dev/g' /usr/local/etc/php-fpm.d/www.conf
+
+
 # Copy entrypoint script
 COPY docker/entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
