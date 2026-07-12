@@ -2,8 +2,11 @@
 
 use App\Http\Middleware\EnsureKycVerified;
 use App\Http\Middleware\EnsureRole;
+use App\Http\Middleware\ProcessHttpOnlyCookie;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -22,6 +25,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->prependToGroup('api', AddQueuedCookiesToResponse::class);
+        $middleware->prependToGroup('api', ProcessHttpOnlyCookie::class);
+        $middleware->prependToGroup('api', EncryptCookies::class);
+
         $middleware->alias([
             'role' => EnsureRole::class,
             'kyc.verified' => EnsureKycVerified::class,
