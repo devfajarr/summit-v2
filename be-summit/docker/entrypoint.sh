@@ -1,28 +1,27 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
-# Install composer dependencies if they are not already installed or need sync
-if [ ! -d "vendor" ]; then
-    echo "Installing composer dependencies (this might take a moment)..."
-    composer install --no-interaction --prefer-dist --optimize-autoloader
-else
-    echo "Vendor directory exists. Running light composer install to check for changes..."
-    composer install --no-interaction --prefer-dist --optimize-autoloader
-fi
+# Ensure directories exist
+mkdir -p /var/www/vendor /var/www/node_modules /var/www/storage /var/www/bootstrap/cache
 
-# Install npm dependencies if they are not already installed or need sync
-if [ ! -d "node_modules" ]; then
-    echo "Installing npm dependencies..."
-    npm install
-else
-    echo "node_modules exists. Running npm install to check for changes..."
-    npm install
-fi
+# Fix permissions so the dev user (UID 1000) can write to them
+echo "Adjusting file permissions..."
+chown dev:dev /var/www
+chown dev:dev /var/www/composer.lock /var/www/package-lock.json 2>/dev/null || true
+chown -R dev:dev /var/www/vendor /var/www/node_modules /var/www/storage /var/www/bootstrap/cache
 
-# Build assets
+# Run composer install as dev user with login shell to preserve HOME env
+echo "Installing/updating Composer dependencies..."
+su - dev -c "cd /var/www && composer install --no-interaction --prefer-dist --optimize-autoloader"
+
+# Run npm install as dev user
+echo "Installing/updating NPM dependencies..."
+su - dev -c "cd /var/www && npm install"
+
+# Build assets as dev user
 echo "Building assets (npm run build)..."
-npm run build
+su - dev -c "cd /var/www && npm run build"
 
-# Run the container command
-exec "$@"
-
+# Run the container command as dev user
+echo "Starting application..."
+exec su - dev -c "cd /var/www && exec $@"
