@@ -1,0 +1,63 @@
+services:
+  # Laravel PHP-FPM Service
+  laravel-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: docker-laravel-app
+    container_name: laravel-app
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    networks:
+      - laravel-network
+
+  # Nginx Service
+  laravel-nginx:
+    image: nginx:latest
+    container_name: laravel-nginx
+    restart: unless-stopped
+    ports:
+      - "8888:80"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - laravel-network
+    depends_on:
+      - laravel-app
+
+  # MySQL Service
+  laravel-mysql:
+    image: mysql:8.4
+    container_name: laravel-mysql
+    restart: unless-stopped
+    ports:
+      - "3336:3306"
+    environment:
+      MYSQL_DATABASE: be_summit
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - laravel-network
+
+  # Mailpit Service
+  laravel-mailpit:
+    image: axllent/mailpit:latest
+    container_name: laravel-mailpit
+    restart: unless-stopped
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    networks:
+      - laravel-network
+
+networks:
+  laravel-network:
+    driver: bridge
+
+volumes:
+  dbdata:
+    driver: local
