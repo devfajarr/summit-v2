@@ -1,11 +1,11 @@
 <?php
 
+use App\Mail\SendOtpMail;
 use App\Models\User;
 use App\Models\UserOtp;
-use App\Mail\SendOtpMail;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 uses(LazilyRefreshDatabase::class);
 
@@ -83,7 +83,8 @@ test('user can verify their email with a valid OTP and receive a token', functio
         'status' => 'success',
         'message' => 'Email verified successfully.',
     ]);
-    $response->assertJsonStructure(['token']);
+    $response->assertJsonMissing(['token']);
+    $response->assertCookie('auth_token');
 
     $user->refresh();
     expect($user->email_verified_at)->not->toBeNull();
@@ -198,4 +199,42 @@ test('user cannot resend OTP code if email is already verified', function () {
         'status' => 'error',
         'message' => 'Email is already verified.',
     ]);
+});
+
+test('user can login successfully and receive auth_token cookie', function () {
+    $user = User::factory()->create([
+        'email' => 'john@example.com',
+        'password' => Hash::make('password'),
+        'email_verified_at' => now(),
+    ]);
+
+    $response = $this->postJson(route('login'), [
+        'email' => 'john@example.com',
+        'password' => 'password',
+    ]);
+
+    $response->assertSuccessful();
+    $response->assertJson([
+        'status' => 'success',
+        'message' => 'Login successful',
+    ]);
+    $response->assertJsonMissing(['token']);
+    $response->assertCookie('auth_token');
+});
+
+test('user can logout successfully and clear auth_token cookie', function () {
+    $user = User::factory()->create([
+        'email' => 'john@example.com',
+        'password' => Hash::make('password'),
+        'email_verified_at' => now(),
+    ]);
+
+    $response = $this->actingAs($user)->postJson(route('logout'));
+
+    $response->assertSuccessful();
+    $response->assertJson([
+        'status' => 'success',
+        'message' => 'Logout successful',
+    ]);
+    $response->assertCookieExpired('auth_token');
 });

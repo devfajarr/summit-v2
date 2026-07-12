@@ -4,15 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
-use App\Http\Requests\Auth\VerifyOtpRequest;
 use App\Http\Requests\Auth\ResendOtpRequest;
+use App\Http\Requests\Auth\VerifyOtpRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\OtpService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use OpenApi\Attributes as OA;
+use Symfony\Component\HttpFoundation\Cookie;
 
 class AuthController extends Controller
 {
@@ -35,7 +37,7 @@ class AuthController extends Controller
                     new OA\Property(property: 'name', type: 'string', example: 'Jhon Doe'),
                     new OA\Property(property: 'email', type: 'string', format: 'email', example: 'jhon@example.com'),
                     new OA\Property(property: 'password', type: 'string', format: 'password', example: 'password'),
-                    new OA\Property(property: 'password_confirmation', type: 'string', format: 'password', example: 'password')
+                    new OA\Property(property: 'password_confirmation', type: 'string', format: 'password', example: 'password'),
                 ]
             )
         ),
@@ -47,11 +49,11 @@ class AuthController extends Controller
                     properties: [
                         new OA\Property(property: 'status', type: 'string', example: 'success'),
                         new OA\Property(property: 'message', type: 'string', example: 'Registration successful. Please check your email for the OTP verification code.'),
-                        new OA\Property(property: 'data', ref: '#/components/schemas/UserResource')
+                        new OA\Property(property: 'data', ref: '#/components/schemas/UserResource'),
                     ]
                 )
             ),
-            new OA\Response(response: 422, description: 'Validation error')
+            new OA\Response(response: 422, description: 'Validation error'),
         ]
     )]
     public function register(RegisterRequest $request): JsonResponse
@@ -82,7 +84,7 @@ class AuthController extends Controller
                 required: ['email', 'password'],
                 properties: [
                     new OA\Property(property: 'email', type: 'string', format: 'email', example: 'jhon@example.com'),
-                    new OA\Property(property: 'password', type: 'string', format: 'password', example: 'password')
+                    new OA\Property(property: 'password', type: 'string', format: 'password', example: 'password'),
                 ]
             )
         ),
@@ -95,19 +97,19 @@ class AuthController extends Controller
                         new OA\Property(property: 'status', type: 'string', example: 'success'),
                         new OA\Property(property: 'message', type: 'string', example: 'Login successful'),
                         new OA\Property(property: 'data', ref: '#/components/schemas/UserResource'),
-                        new OA\Property(property: 'token', type: 'string', example: '2|xyz...')
+                        new OA\Property(property: 'token', type: 'string', example: '2|xyz...'),
                     ]
                 )
             ),
             new OA\Response(response: 401, description: 'Invalid credentials'),
-            new OA\Response(response: 403, description: 'Email address is not verified')
+            new OA\Response(response: 403, description: 'Email address is not verified'),
         ]
     )]
     public function login(LoginRequest $request): JsonResponse
     {
         $validated = $request->validated();
 
-        if (!Auth::attempt($validated)) {
+        if (! Auth::attempt($validated)) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Invalid credentials',
@@ -117,8 +119,9 @@ class AuthController extends Controller
         $user = User::where('email', $validated['email'])->firstOrFail();
 
         // Check if email is verified
-        if (!$user->hasVerifiedEmail()) {
+        if (! $user->hasVerifiedEmail()) {
             Auth::logout();
+
             return response()->json([
                 'status' => 'error',
                 'message' => 'Your email address is not verified.',
@@ -126,13 +129,13 @@ class AuthController extends Controller
         }
 
         $user->tokens()->delete();
+        $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
             'status' => 'success',
             'message' => 'Login successful',
             'data' => new UserResource($user),
-            'token' => $user->createToken('auth_token')->plainTextToken,
-        ]);
+        ])->withCookie($this->getAuthCookie($token));
     }
 
     #[OA\Post(
@@ -145,7 +148,7 @@ class AuthController extends Controller
                 required: ['email', 'otp'],
                 properties: [
                     new OA\Property(property: 'email', type: 'string', format: 'email', example: 'jhon@example.com'),
-                    new OA\Property(property: 'otp', type: 'string', example: '123456')
+                    new OA\Property(property: 'otp', type: 'string', example: '123456'),
                 ]
             )
         ),
@@ -158,12 +161,12 @@ class AuthController extends Controller
                         new OA\Property(property: 'status', type: 'string', example: 'success'),
                         new OA\Property(property: 'message', type: 'string', example: 'Email verified successfully.'),
                         new OA\Property(property: 'data', ref: '#/components/schemas/UserResource'),
-                        new OA\Property(property: 'token', type: 'string', example: '3|abc...')
+                        new OA\Property(property: 'token', type: 'string', example: '3|abc...'),
                     ]
                 )
             ),
             new OA\Response(response: 400, description: 'Invalid or expired OTP code'),
-            new OA\Response(response: 422, description: 'Validation error')
+            new OA\Response(response: 422, description: 'Validation error'),
         ]
     )]
     public function verifyOtp(VerifyOtpRequest $request): JsonResponse
@@ -173,7 +176,7 @@ class AuthController extends Controller
 
         $verified = $this->otpService->verifyOtp($user, $validated['otp']);
 
-        if (!$verified) {
+        if (! $verified) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Invalid or expired OTP code.',
@@ -187,8 +190,7 @@ class AuthController extends Controller
             'status' => 'success',
             'message' => 'Email verified successfully.',
             'data' => new UserResource($user),
-            'token' => $token,
-        ]);
+        ])->withCookie($this->getAuthCookie($token));
     }
 
     #[OA\Post(
@@ -200,7 +202,7 @@ class AuthController extends Controller
             content: new OA\JsonContent(
                 required: ['email'],
                 properties: [
-                    new OA\Property(property: 'email', type: 'string', format: 'email', example: 'jhon@example.com')
+                    new OA\Property(property: 'email', type: 'string', format: 'email', example: 'jhon@example.com'),
                 ]
             )
         ),
@@ -211,12 +213,12 @@ class AuthController extends Controller
                 content: new OA\JsonContent(
                     properties: [
                         new OA\Property(property: 'status', type: 'string', example: 'success'),
-                        new OA\Property(property: 'message', type: 'string', example: 'A new OTP verification code has been sent to your email.')
+                        new OA\Property(property: 'message', type: 'string', example: 'A new OTP verification code has been sent to your email.'),
                     ]
                 )
             ),
             new OA\Response(response: 400, description: 'Email is already verified'),
-            new OA\Response(response: 422, description: 'Validation error')
+            new OA\Response(response: 422, description: 'Validation error'),
         ]
     )]
     public function resendOtp(ResendOtpRequest $request): JsonResponse
@@ -237,5 +239,59 @@ class AuthController extends Controller
             'status' => 'success',
             'message' => 'A new OTP verification code has been sent to your email.',
         ]);
+    }
+
+    #[OA\Post(
+        path: '/api/logout',
+        summary: 'Logout user and revoke token',
+        tags: ['Authentication'],
+        security: [['sanctum' => []]],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Logout successful',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'message', type: 'string', example: 'Logout successful'),
+                    ]
+                )
+            ),
+            new OA\Response(response: 401, description: 'Unauthenticated'),
+        ]
+    )]
+    public function logout(Request $request): JsonResponse
+    {
+        if ($request->user()) {
+            $token = $request->user()->currentAccessToken();
+            if ($token && method_exists($token, 'delete')) {
+                $token->delete();
+            }
+        }
+
+        $cookie = cookie()->forget('auth_token');
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Logout successful',
+        ])->withCookie($cookie);
+    }
+
+    /**
+     * Create an HttpOnly cookie for the authentication token.
+     */
+    protected function getAuthCookie(string $token): Cookie
+    {
+        return cookie(
+            'auth_token',
+            $token,
+            config('session.lifetime', 120),
+            config('session.path', '/'),
+            config('session.domain'),
+            config('session.secure', false),
+            true, // httpOnly
+            false,
+            config('session.same_site', 'lax')
+        );
     }
 }

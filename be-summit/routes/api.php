@@ -21,6 +21,8 @@ Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verify-o
 Route::post('/resend-otp', [AuthController::class, 'resendOtp'])->middleware('throttle:api')->name('resend-otp');
 
 Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
     // KYC endpoints for Climber (Pendaki)
     Route::post('/kyc/submit', [PendakiKycController::class, 'submit'])->name('kyc.submit');
     Route::get('/kyc/status', [PendakiKycController::class, 'status'])->name('kyc.status');
