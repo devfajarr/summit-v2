@@ -135,6 +135,7 @@ class AuthController extends Controller
             'status' => 'success',
             'message' => 'Login successful',
             'data' => new UserResource($user),
+            'token' => $token,
         ])->withCookie($this->getAuthCookie($token));
     }
 
@@ -190,6 +191,7 @@ class AuthController extends Controller
             'status' => 'success',
             'message' => 'Email verified successfully.',
             'data' => new UserResource($user),
+            'token' => $token,
         ])->withCookie($this->getAuthCookie($token));
     }
 

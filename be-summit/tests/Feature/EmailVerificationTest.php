@@ -83,7 +83,7 @@ test('user can verify their email with a valid OTP and receive a token', functio
         'status' => 'success',
         'message' => 'Email verified successfully.',
     ]);
-    $response->assertJsonMissing(['token']);
+    $response->assertJsonStructure(['token']);
     $response->assertCookie('auth_token');
 
     $user->refresh();
@@ -218,7 +218,7 @@ test('user can login successfully and receive auth_token cookie', function () {
         'status' => 'success',
         'message' => 'Login successful',
     ]);
-    $response->assertJsonMissing(['token']);
+    $response->assertJsonStructure(['token']);
     $response->assertCookie('auth_token');
 });
 
