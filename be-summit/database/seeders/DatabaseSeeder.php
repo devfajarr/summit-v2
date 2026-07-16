@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
     {
         User::factory(10)->create();
 
+        User::factory(10)->mitra()->create();
+
         User::create([
             'name' => 'Admin Plenger',
             'email' => 'admin@example.com',
@@ -27,6 +29,5 @@ class DatabaseSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-
     }
 }
