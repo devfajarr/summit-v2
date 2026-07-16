@@ -13,6 +13,7 @@ use App\Http\Controllers\Pendaki\GunungController as PendakiGunungController;
 use App\Http\Controllers\Pendaki\KycController as PendakiKycController;
 use App\Http\Controllers\Pendaki\PesananController as PendakiPesananController;
 use App\Http\Controllers\Pendaki\ProductController as PendakiProductController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [AuthController::class, 'register'])->name('register');
@@ -22,6 +23,8 @@ Route::post('/resend-otp', [AuthController::class, 'resendOtp'])->middleware('th
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
 
     // KYC endpoints for Climber (Pendaki)
     Route::post('/kyc/submit', [PendakiKycController::class, 'submit'])->name('kyc.submit');
