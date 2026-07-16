@@ -3,7 +3,7 @@
         "laravel-boost": {
             "command": "D:\\laragon\\bin\\php\\php-8.3.30-Win32-vs16-x64\\php.exe",
             "args": [
-                "D:\\laragon\\www\\be-summit\\artisan",
+                "artisan",
                 "boost:mcp"
             ],
             "disabled": false
